@@ -5,23 +5,27 @@ import fs from 'fs';
 
 console.log('germany vacations API start');
 
-/**
- * Download current vacation sheets PDFs
- */
-const vacDownloader = new vacationSheetDownloader();
-vacDownloader.download();
-
-
-/**
- * Extract vaction dates from PDF files.
- */
 const pdfDir = 'vacation_sheets';
 const vacationSheetsPath = path.join(__dirname, `../${pdfDir}`);
 
-const vacExtractor = new vacationSheetExtractor();
+downloadAndExtract(vacationSheetsPath);
 
-vacExtractor.extractVacationSheets(vacationSheetsPath).then(vacationDateSheets => {
-   fs.writeFile(`vacationSheets.json`, JSON.stringify(vacationDateSheets), 'utf8', () => {
-      console.log('Writing file with vacationDateSheets successful.');
+async function downloadAndExtract(folderPath: string){
+   /**
+    * Download current vacation sheet PDFs
+    */
+   const vacDownloader = new vacationSheetDownloader(folderPath);
+   await vacDownloader.download();
+
+   /**
+    * Extract vaction dates from PDF files.
+    */
+   const vacExtractor = new vacationSheetExtractor();
+
+   vacExtractor.extractVacationSheets(folderPath).then(vacationDateSheets => {
+      fs.writeFile(`vacationSheets.json`, JSON.stringify(vacationDateSheets), 'utf8', () => {
+         console.log('Writing file with vacationDateSheets successful.');
+      });
    });
-});
+
+}

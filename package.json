@@ -1,0 +1,23 @@
+{
+  "name": "germany-vacations-api",
+  "version": "1.0.1",
+  "description": "API to retrieve vacation dates from germany for all 16 federal states.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node ./dist/index.js",
+    "try": "tsc && node ./test.js",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fresh-tabula-js": "^2.0.0",
+    "pdf-table-extractor": "^1.0.3",
+    "tabula-js": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "typescript": "^5.2.2"
+  }
+}

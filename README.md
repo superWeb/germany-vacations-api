@@ -19,6 +19,12 @@ Start project with `npm start`.
 
 ## Remarks
 
+### Manual override .json files
+Sometimes `tabula-java` converts the PDF files not always to correct .json files.
+(looks like this depends on the used java version or tabula-java version)
+
+In this case a .json file can be manual corrected and be renamed with the suffix `_MANUAL_OVERRIDE` to be used instead of the automatic generated file.
+
 ### Asumptions for the extracted vacation date sheets
 
 1. Christmas starts always in december and ends always in january. (otherwise the extractor would lead to wrong dates)

@@ -46,11 +46,11 @@ class VacationSheetExtractor {
         for (const jsonFile of jsonFiles) {
 
             const rawFileName = jsonFile.split('.')[0];
-            const manualFileSuffix = '_MANUAL_TABULA_EXPORT';
+            const manualFileSuffix = '_MANUAL_OVERRIDE';
             const jsonFileMaunal = `${rawFileName}${manualFileSuffix}.json`;
             if (jsonFiles.includes(jsonFileMaunal)) {
                 // a manual export of a tabula file exist, so skip the automated generated file
-                // some .pdf files can be only correctly exported with the tabula UI version
+                // some .pdf files can be only correctly exported with the tabula UI version or with a different java version
                 console.log(`Using file ${jsonFileMaunal} instead of ${jsonFile}`);
                 continue;
             }

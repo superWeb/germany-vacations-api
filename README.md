@@ -1,12 +1,24 @@
 
-# Ferientermine API
+# Vacation Dates API for Germany
 
-.
+This project downloads the current PDF sheets with the vacation dates from the official [KMK](https://www.kmk.org/service/ferien.html) office website.
+Each PDF file contains a table with the vacation dates for all federal states for one school year.
 
-## Asumptions for parsed PDF Files
+In the next step the PDFs are parsed with the tool [tabula-java](https://github.com/tabulapdf/tabula-java) to .json files.
 
-1. Chrismas starts always in december and ends always in january
+The .json files with the raw table content is then converted in a structured format.
 
+## Requirements
+Node.js has to be installed in version `18.15.0` or higher.
 
-master command:
-java -Dfile.encoding=utf-8 -jar tabula-java.jar --spreadsheet --use-line-returns --outfile out.json --format JSON  vacation-sheets/FER2011_12.pdf
+Java has to be installed in version `20.0.2` or higher.
+
+## Development
+Install dependencies with `npm install`.
+Start project with `npm start`.
+
+## Remarks
+
+### Asumptions for the extracted vacation date sheets
+
+1. Christmas starts always in december and ends always in january. (otherwise the extractor would lead to wrong dates)

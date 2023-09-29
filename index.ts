@@ -10,7 +10,7 @@ const vacationSheetsPath = path.join(__dirname, `../${pdfDir}`);
 
 downloadAndExtract(vacationSheetsPath);
 
-async function downloadAndExtract(folderPath: string){
+async function downloadAndExtract(folderPath: string) {
    /**
     * Download current vacation sheet PDFs
     */
@@ -23,7 +23,7 @@ async function downloadAndExtract(folderPath: string){
    const vacExtractor = new vacationSheetExtractor();
 
    vacExtractor.extractVacationSheets(folderPath).then(vacationDateSheets => {
-      fs.writeFile(`vacationSheets.json`, JSON.stringify(vacationDateSheets), 'utf8', () => {
+      fs.writeFile(`vacation_sheets.json`, JSON.stringify(vacationDateSheets), 'utf8', () => {
          console.log('Writing file with vacationDateSheets successful.');
       });
    });

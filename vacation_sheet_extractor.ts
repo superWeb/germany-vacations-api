@@ -130,7 +130,7 @@ class VacationSheetExtractor {
 
     private processTabulaTable(table: any): VacationDateSheet {
         const firstCell = table[0][1].text.replace(/\s/g, "");; // Herbst20xx
-        const schoolYearStart = firstCell.substr(firstCell.length - 4);
+        const schoolYearStart = parseInt(firstCell.substr(firstCell.length - 4));
 
         if (schoolYearStart < 1900 || schoolYearStart > 9999) {
             console.error('Wrong school year:', schoolYearStart); return;
@@ -318,7 +318,7 @@ const FEDERAL_STATE_NAMES: { [index: string]: any } = {
     'DE-TH': 'Thüringen',
 }
 
-interface VacationDateSheet {
+export interface VacationDateSheet {
     schoolYearStart: number;
     federalStates: FederalState[];
 }

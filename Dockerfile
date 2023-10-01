@@ -9,4 +9,7 @@ WORKDIR /usr/vac
 
 COPY . .
 
-CMD ["tail", "-f", "/dev/null"]
+RUN npm install
+
+CMD ["npm", "start"]
+# CMD ["tail", "-f", "/dev/null"]

@@ -8,6 +8,14 @@ In the next step the PDFs are parsed with the tool [tabula-java](https://github.
 
 The .json files with the raw table content is then converted in a structured format.
 
+The express.js API server provides access to the following REST routes:
+
+| HTTP Method  | Path                           | Description                                                                         |
+|--------------|--------------------------------|-------------------------------------------------------------------------------------|
+| GET          | /vacation-sheets               | Returns an array of all available vacation sheets                                   |
+| GET          | /vacation-sheet/%YEAR%         | Returns a vactions sheet for the given year `%YEAR%`                                  |
+| GET          | /vacation-sheets/update/%KEY%  | Triggers an update of vacation sheets. This includes a download of the current<br> vacation PDF files from the offical website. The `%KEY%` is new generate at every start<br>  and is set in the environment variable `UPDATE_VACATION_KEY` |
+
 ## Requirements
 Node.js has to be installed in version `18.15.0` or higher.
 
@@ -16,6 +24,10 @@ Java has to be installed in version `20.0.2` or higher.
 ## Development
 Install dependencies with `npm install`.
 Start project with `npm start`.
+
+## Run API Server with Docker
+To easily run the API Server with the depenencies like Node.js and Java you can use the `Dockerfile` to build and run a container.
+The API Server is exposed on port 80.
 
 ## Remarks
 

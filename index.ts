@@ -36,7 +36,7 @@ app.get('/vacation-sheet/:startSchooYear', (req, res) => {
 })
 
 app.get('/vacation-sheets/update/:key', async (req, res) => {
-   if(req.params['key'] === UPDATE_VACATION_KEY) {
+   if(req.params['key'].length > 10 && req.params['key'] === UPDATE_VACATION_KEY) {
 
       vacationDateSheets = await downloadAndExtract(vacationSheetsPath);
 

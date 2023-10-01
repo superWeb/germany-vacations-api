@@ -3,12 +3,14 @@ import vacationSheetExtractor, { VacationDateSheet } from './vacation_sheet_extr
 import path from "path";
 import fs from 'fs/promises';
 import express from 'express';
+import compression from 'compression';
 import crypto from 'crypto';
 import schedule from 'node-schedule';
 
 console.log('Vacations API start.');
 
 const app = express()
+app.use(compression());
 const port = 80
 const UPDATE_VACATION_KEY = crypto.randomBytes(16).toString("hex")
 process.env['UPDATE_VACATION_KEY'] = UPDATE_VACATION_KEY

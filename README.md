@@ -13,8 +13,8 @@ The express.js API server provides access to the following REST routes:
 | HTTP Method  | Path                           | Description                                                                         |
 |--------------|--------------------------------|-------------------------------------------------------------------------------------|
 | GET          | /vacation-sheets               | Returns an array of all available vacation sheets                                   |
-| GET          | /vacation-sheet/%YEAR%         | Returns a vactions sheet for the given year `%YEAR%`                                  |
-| GET          | /vacation-sheets/update/%KEY%  | Triggers an update of vacation sheets. This includes a download of the current<br> vacation PDF files from the offical website. The `%KEY%` is new generate at every start<br>  and is set in the environment variable `UPDATE_VACATION_KEY` |
+| GET          | /vacation-sheet/%YEAR%         | Returns a vaction sheet for the given year `%YEAR%`                                 |
+| GET          | /vacation-sheets/update/%KEY%  | Triggers an update of vacation sheets. This includes a download of the current vacation PDF files from the offical website. The `%KEY%` is new generate at every start and is set in the environment variable `UPDATE_VACATION_KEY` |
 
 ## Requirements
 Node.js has to be installed in version `18.15.0` or higher.

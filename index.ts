@@ -1,9 +1,10 @@
 import vacationSheetDownloader from './vacation_sheet_downloader';
 import vacationSheetExtractor, { VacationDateSheet } from './vacation_sheet_extractor';
 import path from "path";
-import fs from 'fs';
+import fs from 'fs/promises';
 import express from 'express';
 import crypto from 'crypto';
+import schedule from 'node-schedule';
 
 console.log('Vacations API start.');
 
@@ -29,36 +30,30 @@ app.get('/vacation-sheets', (req, res) => {
 app.get('/vacation-sheet/:startSchooYear', (req, res) => {
    const reqYear = parseInt(req.params['startSchooYear']);
    let result = {};
-   if(reqYear > 1900 && reqYear < 9999) {
+   if (reqYear > 1900 && reqYear < 9999) {
       result = vacationDateSheets.find((sheet: VacationDateSheet) => sheet.schoolYearStart === reqYear);
    }
    res.json(result);
 })
 
 app.get('/vacation-sheets/update/:key', async (req, res) => {
-   if(req.params['key'].length > 10 && req.params['key'] === UPDATE_VACATION_KEY) {
+   let result: any = {};
 
-      vacationDateSheets = await downloadAndExtract(vacationSheetsPath);
-
-      fs.writeFile(savedFileName, JSON.stringify(vacationDateSheets), 'utf8', () => {
-         console.log('Writing file with vacationDateSheets successful.');
-      });
-
-      return res.json({message: 'Update of vacation sheets successfull.'});
-   
+   if (req.params['key'].length > 10 && req.params['key'] === UPDATE_VACATION_KEY) {
+      await downloadAndExtract(vacationSheetsPath);
+      result.message = 'Updated vaction dates.';
+   } else {
+      result.error = 'Key not valid.';
    }
-   res.json({error: 'Key not valid.'});
+
+   res.json(result);
 })
 
 app.listen(port, () => {
    console.log(`Vacations API listening on port ${port}`)
 })
 
-fs.readFile(savedFileName, 'utf8', (err, data) => {
-   if (err) {
-      console.error(err);
-      return;
-   }
+const file = fs.readFile(savedFileName, 'utf8').then((data: any) => {
    console.log(`Read saved vacations from file: ${savedFileName}`);
    vacationDateSheets = JSON.parse(data);
 });
@@ -74,6 +69,23 @@ async function downloadAndExtract(folderPath: string): Promise<VacationDateSheet
     * Extract vaction dates from PDF files.
     */
    const vacExtractor = new vacationSheetExtractor();
+   const vacationDateSheets = await vacExtractor.extractVacationSheets(folderPath);
 
-   return await vacExtractor.extractVacationSheets(folderPath);
+   /**
+    * Save vacation dates to file.
+    */
+   try {
+      await fs.writeFile(savedFileName, JSON.stringify(vacationDateSheets), 'utf8');
+      console.log('Writing file with vacationDateSheets successful.');
+   } catch (err) {
+      console.log(err);
+   }
+
+   return vacationDateSheets;
 }
+
+// update vacation dates each week on thuesday at 08:03 
+const cronJob = schedule.scheduleJob('3 8 * * 2', function () {
+   console.log('Schedule job started!');
+   downloadAndExtract(vacationSheetsPath);
+});

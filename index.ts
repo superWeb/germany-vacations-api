@@ -6,11 +6,13 @@ import express from 'express';
 import compression from 'compression';
 import crypto from 'crypto';
 import schedule from 'node-schedule';
+import cors from 'cors';
 
 console.log('Vacations API start.');
 
 const app = express()
 app.use(compression());
+app.use(cors());
 const port = 80
 const UPDATE_VACATION_KEY = crypto.randomBytes(16).toString("hex")
 process.env['UPDATE_VACATION_KEY'] = UPDATE_VACATION_KEY

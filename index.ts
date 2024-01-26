@@ -7,8 +7,9 @@ import compression from 'compression';
 import crypto from 'crypto';
 import schedule from 'node-schedule';
 import cors from 'cors';
+import { version } from './package.json';
 
-console.log('Vacations API start.');
+console.log('Vacations API start with version: ' + version);
 
 const app = express()
 app.use(compression());
@@ -24,7 +25,7 @@ const savedFileName = 'vacation_sheets.json';
 const vacationSheetsPath = path.join(__dirname, `../${pdfDir}`);
 
 app.get('/', (req, res) => {
-   res.send('Hello World from Vacations API.');
+   res.send('Hello World from Vacations API version: ' + version);
 })
 
 app.get('/vacation-sheets', (req, res) => {

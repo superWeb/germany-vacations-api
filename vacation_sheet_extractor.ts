@@ -62,6 +62,7 @@ class VacationSheetExtractor {
 
         }
 
+        vacationDateSheets.sort((a, b) => {return a.schoolYearStart-b.schoolYearStart});
         return vacationDateSheets;
     }
 

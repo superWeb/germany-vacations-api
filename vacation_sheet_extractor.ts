@@ -173,7 +173,7 @@ class VacationSheetExtractor {
 
             // sort vacations by type
             federalState.vacations.sort((a, b) => {
-                return this.getVacationTypeOrder(b.type) - this.getVacationTypeOrder(a.type);
+                return this.getVacationTypeOrder(a.type) - this.getVacationTypeOrder(b.type);
             });
 
             if (federalState.code) {

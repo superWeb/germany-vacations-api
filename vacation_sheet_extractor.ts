@@ -171,6 +171,11 @@ class VacationSheetExtractor {
                 }
             }
 
+            // sort vacations by type
+            federalState.vacations.sort((a, b) => {
+                return this.getVacationTypeOrder(b.type) - this.getVacationTypeOrder(a.type);
+            });
+
             if (federalState.code) {
                 vacationSheet.federalStates.push(federalState);
             }
@@ -183,6 +188,21 @@ class VacationSheetExtractor {
         // console.log('Vacation Sheet: ', vacationSheet);
 
         return vacationSheet;
+
+    }
+
+    private getVacationTypeOrder(vacationType: VacationType): number {
+
+        const vacationTypeOrderMap = {
+            'AUTUMN': 1,
+            'CHRISTMAS': 2,
+            'WINTER': 3,
+            'EASTERN': 4,
+            'ASCENSION': 5,
+            'SUMMER': 6,
+        }
+
+        return vacationTypeOrderMap[vacationType];
 
     }
 

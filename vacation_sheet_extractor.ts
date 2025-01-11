@@ -248,7 +248,7 @@ class VacationSheetExtractor {
              */
             const shortStrDates = line.split(/\/|und|\+/); // split by "/", "und", "+"
             shortStrDates.forEach(shortStrDate => {
-                result = [...result, ...this.getVacationDatesFromStr(shortStrDate, years)];
+                result = [...result, ...this.getVacationDatesFromStr(shortStrDate, years, vacationDatesCellStr)];
             });
 
         });
@@ -278,11 +278,11 @@ class VacationSheetExtractor {
         return result;
     }
 
-    private getVacationDatesFromStr(vacationDatesStr: string, years: number[]): VacationPeriod[] {
+    private getVacationDatesFromStr(vacationDatesStr: string, years: number[], cellStr?: string): VacationPeriod[] {
         let result: VacationPeriod[] = [];
 
         if (vacationDatesStr.length === 6) { // e.g. 19.05.
-            const date = this.getIsoDateFromShortStr(vacationDatesStr, years);
+            const date = this.getIsoDateFromShortStr(vacationDatesStr, years, cellStr);
             result.push({ from: date, until: date })
         }
 
@@ -292,8 +292,8 @@ class VacationSheetExtractor {
             if (vacationDatesStr.includes(splitCharRange)) {
                 const [fromShortDateStr, untilShortDateStr] = vacationDatesStr.split(splitCharRange);
                 result.push({
-                    from: this.getIsoDateFromShortStr(fromShortDateStr, years),
-                    until: this.getIsoDateFromShortStr(untilShortDateStr, years)
+                    from: this.getIsoDateFromShortStr(fromShortDateStr, years, cellStr),
+                    until: this.getIsoDateFromShortStr(untilShortDateStr, years, cellStr)
                 });
             }
         });
@@ -301,7 +301,7 @@ class VacationSheetExtractor {
         return result;
     }
 
-    private getIsoDateFromShortStr(shortDateStr: string, years: number[]): string {
+    private getIsoDateFromShortStr(shortDateStr: string, years: number[], cellStr?: string): string {
         const datesArray = shortDateStr.split('.');
         const month = ('0' + datesArray[1]).slice(-2);
         const day = ('0' + datesArray[0]).slice(-2);
@@ -311,7 +311,7 @@ class VacationSheetExtractor {
         let isoDate = `${year}-${month}-${day}`;
         const validIsoDate: boolean = new RegExp(/(\d{4})-[0-1][0-9]-[0-3][0-9]/).test(isoDate); // e.g. valid: 2005-12-07
         if (!validIsoDate) {
-            console.error(`Extracted wrong ISO date: ${isoDate} from string: ${shortDateStr}`);
+            console.error(`Extracted wrong ISO date: ${isoDate} from string: ${shortDateStr}, cell: ${cellStr}`);
             isoDate = '';
         }
 
